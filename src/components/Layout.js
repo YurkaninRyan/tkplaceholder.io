@@ -18,7 +18,7 @@ class Layout extends React.Component {
           minHeight: '100vh',
         }}
       >
-        <Header title={this.props.title} />
+        <Header />
         <div
           style={{
             padding: `${rhythm(1)} ${rhythm(3 / 4)}`,

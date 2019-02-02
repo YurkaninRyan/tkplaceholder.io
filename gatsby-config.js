@@ -1,6 +1,6 @@
 module.exports = {
   siteMetadata: {
-    title: 'TKPLACEHOLDER',
+    title: 'TKPlaceholder',
     author: 'Ryan Yurkanin',
     description: 'Personal Blog/Portfolio for Ryan Yurkanin.',
     siteUrl: 'https://tk.io',
@@ -132,7 +132,7 @@ module.exports = {
       resolve: `gatsby-plugin-manifest`,
       options: {
         name: `TKPlaceholder`,
-        short_name: `TKPlaceholder`,
+        short_name: `TKP`,
         start_url: `/`,
         background_color: `#fdfdfd`,
         theme_color: `#F8C265`,
@@ -140,6 +140,7 @@ module.exports = {
         icon: `src/assets/icon.png`,
       },
     },
+    `gatsby-plugin-offline`,
     `gatsby-plugin-react-helmet`,
     {
       resolve: 'gatsby-plugin-typography',

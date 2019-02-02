@@ -36,7 +36,7 @@ export default class Header extends React.Component {
               }}
               to={'/'}
             >
-              {this.props.title}
+              TKPLACEHOLDER
             </Link>
           </h1>
         </nav>
