@@ -16,7 +16,11 @@ export default function ArticleSummary(props) {
             lineHeight: rhythm(5 / 6),
           }}
         >
-          <Link style={{ boxShadow: 'none' }} to={props.to} rel="bookmark">
+          <Link
+            style={{ boxShadow: 'none', color: 'var(--textTitle)' }}
+            to={props.to}
+            rel="bookmark"
+          >
             {props.title}
           </Link>
         </div>

@@ -135,63 +135,79 @@ class BlogPostTemplate extends React.Component {
     )}`;
 
     return (
-      <Layout location={this.props.location} title={siteTitle}>
-        <SEO
-          lang={lang}
-          title={post.frontmatter.title}
-          description={post.frontmatter.description}
-          slug={post.fields.slug}
-        />
-        <article>
-          <header>
-            <h1 style={{ color: 'var(--textTitle)', marginTop: 0 }}>
-              {post.frontmatter.title}
-            </h1>
-            <p
-              style={{
-                ...scale(-1 / 5),
-                display: 'block',
-                marginBottom: rhythm(1),
-                marginTop: rhythm(-4 / 5),
-              }}
-            >
-              {formatPostDate(post.frontmatter.date, lang)}
-              {` • ${formatReadingTime(post.timeToRead)}`}
-            </p>
-            {translations.length > 0 && (
-              <Translations
-                translations={translations}
-                editUrl={editUrl}
-                languageLink={languageLink}
-                lang={lang}
-              />
-            )}
-          </header>
-          <div dangerouslySetInnerHTML={{ __html: html }} />
-          <footer>
-            <p>
-              <a href={discussUrl} target="_blank" rel="noopener noreferrer">
-                Discuss on Twitter
-              </a>
-              {` • `}
-              <a href={editUrl} target="_blank" rel="noopener noreferrer">
-                Edit on GitHub
-              </a>
-            </p>
-          </footer>
-        </article>
-        <aside>
+      <React.Fragment>
+        <Layout location={this.props.location} title={siteTitle}>
+          <SEO
+            lang={lang}
+            title={post.frontmatter.title}
+            description={post.frontmatter.description}
+            slug={post.fields.slug}
+          />
+          <article>
+            <header>
+              <h1
+                style={{
+                  color: 'var(--textTitle)',
+                  marginTop: 0,
+                  fontWeight: '600',
+                }}
+              >
+                {post.frontmatter.title}
+              </h1>
+              <p
+                style={{
+                  ...scale(-1 / 5),
+                  display: 'block',
+                  marginBottom: rhythm(1),
+                  marginTop: rhythm(-4 / 5),
+                }}
+              >
+                {formatPostDate(post.frontmatter.date, lang)}
+                {` • ${formatReadingTime(post.timeToRead)}`}
+              </p>
+              {translations.length > 0 && (
+                <Translations
+                  translations={translations}
+                  editUrl={editUrl}
+                  languageLink={languageLink}
+                  lang={lang}
+                />
+              )}
+            </header>
+            <div dangerouslySetInnerHTML={{ __html: html }} />
+            <footer>
+              <p>
+                <a href={discussUrl} target="_blank" rel="noopener noreferrer">
+                  Discuss on Twitter
+                </a>
+                {` • `}
+                <a href={editUrl} target="_blank" rel="noopener noreferrer">
+                  Edit on GitHub
+                </a>
+              </p>
+            </footer>
+          </article>
+        </Layout>
+        <footer
+          style={{
+            width: '100%',
+            maxWidth: '1200px',
+            padding: `${rhythm(1 / 2)} ${rhythm(1 / 2)} 0`,
+            margin: '0 auto',
+          }}
+        >
           <h3
             style={{
               fontFamily: 'Montserrat, sans-serif',
               marginTop: rhythm(0.25),
+              marginBottom: rhythm(0.75),
             }}
           >
             <Link
               style={{
                 boxShadow: 'none',
                 textDecoration: 'none',
-                color: 'var(--textLink)',
+                color: 'var(--textTitle)',
               }}
               to={'/'}
             >
@@ -206,6 +222,7 @@ class BlogPostTemplate extends React.Component {
                 justifyContent: 'space-between',
                 listStyle: 'none',
                 padding: 0,
+                marginBottom: 0,
               }}
             >
               <li>
@@ -224,8 +241,8 @@ class BlogPostTemplate extends React.Component {
               </li>
             </ul>
           </nav>
-        </aside>
-      </Layout>
+        </footer>
+      </React.Fragment>
     );
   }
 }
