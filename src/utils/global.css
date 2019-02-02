@@ -6,7 +6,11 @@ body {
 }
 
 body.light {
-  --yellow: hsl(38, 91.3%, 68.4%);
+  --yellow: radial-gradient(
+    circle,
+    rgba(244, 204, 63, 1) 0%,
+    rgba(248, 194, 101, 1) 87%
+  );
   --bg: var(--white);
   --header: var(--black);
   --textNormal: var(--black);
@@ -18,7 +22,11 @@ body.light {
 }
 
 body.dark {
-  --yellow: hsl(38, 74.3%, 68.4%);
+  --yellow: radial-gradient(
+    circle,
+    rgba(244, 204, 63, 1) 0%,
+    rgba(248, 194, 101, 1) 87%
+  );
   --bg: #282c35;
   --header: var(--white);
   --textNormal: rgba(255, 255, 255, 0.88);

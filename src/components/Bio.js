@@ -30,7 +30,7 @@ class Bio extends React.Component {
             </a>{' '}
             personal blog
           </p>
-          <p>Lead Software Engineer @Guru</p>
+          <p>Lead Engineer @Guru</p>
         </div>
       </div>
     );

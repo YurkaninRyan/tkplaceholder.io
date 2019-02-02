@@ -10,6 +10,8 @@ export default class Header extends React.Component {
         style={{
           background: 'var(--yellow)',
           marginBottom: rhythm(1),
+          position: 'sticky',
+          top: '-60px',
         }}
       >
         <nav
@@ -30,7 +32,7 @@ export default class Header extends React.Component {
               style={{
                 boxShadow: 'none',
                 textDecoration: 'none',
-                color: 'var(--textTitle)',
+                color: 'var(--black)',
               }}
               to={'/'}
             >
