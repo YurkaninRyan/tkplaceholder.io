@@ -24,6 +24,7 @@ exports.createPages = ({ graphql, actions }) => {
                   }
                   frontmatter {
                     title
+                    hidden
                   }
                 }
               }

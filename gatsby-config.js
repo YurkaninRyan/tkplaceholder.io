@@ -116,6 +116,7 @@ module.exports = {
                         title
                         date
                         description
+                        hidden
                       }
                     }
                   }

@@ -21,8 +21,8 @@ class Layout extends React.Component {
         <Header />
         <div
           style={{
-            padding: `${rhythm(1)} ${rhythm(3 / 4)}`,
-            maxWidth: '1200px',
+            padding: `${rhythm(1)} ${rhythm(1)}`,
+            maxWidth: '1300px',
             margin: '0 auto',
           }}
         >

@@ -191,7 +191,7 @@ class BlogPostTemplate extends React.Component {
         <footer
           style={{
             width: '100%',
-            maxWidth: '1200px',
+            maxWidth: '1300px',
             padding: `${rhythm(1 / 2)} ${rhythm(1 / 2)} 0`,
             margin: '0 auto',
           }}

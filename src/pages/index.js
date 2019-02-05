@@ -17,6 +17,10 @@ class BlogIndex extends React.Component {
       <Layout location={this.props.location} title={siteTitle}>
         <SEO />
         {posts.map(({ node }) => {
+          if (node.frontmatter.hidden) {
+            return null;
+          }
+
           return (
             <ArticleSummary
               to={node.fields.slug}
@@ -54,6 +58,7 @@ export const pageQuery = graphql`
             date(formatString: "MMMM DD, YYYY")
             title
             description
+            hidden
           }
         }
       }

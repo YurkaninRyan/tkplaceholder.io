@@ -5,11 +5,12 @@ body {
 }
 
 body.light {
-  --yellow: radial-gradient(
+  --yellow-gradient: radial-gradient(
     circle,
-    rgba(244, 204, 63, 1) 0%,
-    rgba(248, 194, 101, 1) 87%
+    hsl(47, 89%, 60%) 0%,
+    hsl(38, 91%, 68%) 87%
   );
+  --yellow: hsl(38, 91%, 68%);
   --bg: var(--white);
   --header: var(--black);
   --textNormal: var(--black);
@@ -21,19 +22,20 @@ body.light {
 }
 
 body.dark {
-  --yellow: radial-gradient(
+  --yellow-gradient: radial-gradient(
     circle,
-    rgba(244, 204, 63, 1) 0%,
-    rgba(248, 194, 101, 1) 87%
+    hsl(47, 45%, 60%) 0%,
+    hsl(38, 45%, 68%) 87%
   );
+  --yellow: hsl(38, 45%, 68%);
   --bg: #282c35;
   --header: var(--white);
   --textNormal: rgba(255, 255, 255, 0.88);
   --textTitle: var(--white);
   --textLink: #57a3e8;
   --hr: hsla(0, 0%, 100%, 0.2);
-  --inlineCode-bg: var(--yellow);
-  --inlineCode-text: #fff;
+  --inlineCode-bg: rgba(35, 28, 12, 1);
+  --inlineCode-text: var(--yellow);
   -webkit-font-smoothing: antialiased;
 }
 

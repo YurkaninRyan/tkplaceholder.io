@@ -8,7 +8,7 @@ export default class Header extends React.Component {
     return (
       <header
         style={{
-          background: 'var(--yellow)',
+          background: 'var(--yellow-gradient)',
           marginBottom: rhythm(1),
           position: 'sticky',
           top: '-60px',
@@ -18,7 +18,7 @@ export default class Header extends React.Component {
           style={{
             margin: '0 auto',
             padding: rhythm(1 / 2),
-            maxWidth: '1200px',
+            maxWidth: '1300px',
           }}
         >
           <h1
