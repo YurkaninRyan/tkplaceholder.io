@@ -1,6 +1,6 @@
 ---
 title: Algebraic Effects Help Us Optimize for Change
-description: TK-description
+description: Algebraic effects help reduce the error surface area of systems by seperating effects from their handlers without requiring the rest of the system to link them together.
 date: "2019-02-08"
 hidden: true
 ---
@@ -50,14 +50,43 @@ function double(x, opts = {}) {
 }
 ```
 
-This solution has some [serious issues](http://callbackhell.com/) at scale.
+### Good Architecture Helps Systems and New Developers Grow
+
+This solution above has some [serious issues](http://callbackhell.com/) at scale.  It causes drag while refactoring and makes it harder for new developers to fall into the [pit of success.](https://blog.codinghorror.com/falling-into-the-pit-of-success/)
 
 1. For every abstraction in your system, you need to be aware of the `onError` function.  It would be easy for a new developer entering your codebase to make a mistake and forget to pass it along.
 2. The control flow of your entire system needs to account for the cases where errors cause early returns.  We have to work with the callstack.
 
-We want nested function to say what _has_ happened, and yield control to some outside block of code that says what _should_ happen, without having to thread that logic through the system.
+Imagine coming into a company with no context of the system, and trying to add something to it that has early returns and threads handlers.
 
-This is what makes an effect an algebraic effect.  The effect and the handler are seperate, and they are aware of each other without making the rest of the system aware.
+```js
+import double from "./double";
+
+// How were we supposed to know we get a second argument
+// that has an onError function?
+function doublePlusOne(x) {
+
+  // if double isn't a number, it will return a string!
+  return double(x) + 1;
+}
+```
+
+In peer review, you would need someone catch that you're not piping through `onError` or handling a possible early return.  Static Typing helps here, but still errors are possible.
+
+This is the version that handles those edge cases.
+
+```js
+function doublePlusOne(x, opts={}) {
+  const doubled = double(x, opts);
+
+  // We errored
+  if (!doubled) { return; }
+
+  return doubled + 1;
+}
+```
+
+What if the nested function said what _has_ happened, and yielded control to some outside block of code that says what _should_ happen, without having to thread that logic through the system.  That would reduce the error surface area of the code.
 
 ### Learning from `Try/Catch`
 
@@ -90,7 +119,7 @@ try {
 
 Our system has become a lot healthier now that:
 * `throw` only needs to change if we want to communicate a different error, and we can colocate it next to relevant code.
-* You can override a higher up in the system `catch` by simply adding another `try` block deeper in the system.
+* You can override a higher up in the system `catch` by adding another `try` block deeper in the system.
 * Neither the consumed module, nor the consumer have to worry about cleaning up everything inbetween the effect and the handler during a refactor
 
 While engineering, change and iteration can be rapid.  The speed at which we can collaborate and refactor is key to getting a quality end result.
@@ -132,13 +161,13 @@ We wouldn't have to tightly couple a large system to any specific API, we could 
 
 Algebraic effects allow us to make only two parts of our system aware of side effects. Where the effect fires, and where it is handled.
 
-This reduces drag when quickly iterating, by speeding up the refactor path.  You rarely have to touch where an effect is fired, or the in between code of the system.  Usually you just move the handler up and down some levels.
+This reduces drag when iterating, by speeding up the refactor path.  You rarely have to touch where an effect is fired, or the in between code of the system.  Often you just move the handler up and down some levels.
 
-It also gives those consuming your system free entry points to integrate.  As long as this is properly documented and exposed, you gain a lot of flexibility for free.
+It also gives those consuming your system free entry points to integrate.  As long as this is documented and exposed, you gain a lot of flexibility for free.
 
 ---
 
-If you have any questions or are looking for one-on-one React mentorship, feel free to tweet me @yurkaninryan any time!
+If you have any questions or are looking for one-on-one React mentorship, feel free to tweet me **@yurkaninryan** any time!
 
 Good luck and happy coding!! 😄
 
