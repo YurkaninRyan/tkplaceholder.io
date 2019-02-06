@@ -5,26 +5,149 @@ date: "2019-02-08"
 hidden: true
 ---
 
-I first heard the term [Algebraic Effects while working with React](https://github.com/reactjs/react-basic#algebraic-effects), and it sparked my curiosity.
+When creating and working in any large system, it's easy to write code that makes refactoring and tinkering within the system more difficult.
 
-I stumbled upon [this tutorial linked in the Eff Docs](https://www.eff-lang.org/handlers-tutorial.pdf) and found an interesting description for Algebraic Effects.
-
-> impure behaviour arises from a set of operations such as get & set for mutable store, read & print for interactive input & output, or **raise for exceptions**
->
-> This naturally gives rise to **handlers not only of exceptions, but of any other effect**
-
-Raising exceptions and handling them?  I've been doing that my entire career!  It sounds like they are talking about `try/catch` blocks. 💡
-
-Let's take a look at error handling in Javascript.
-
-```js{2,3,4}
-function greet(name) {
-  if (!name) {
-    throw "You forgot to give a name"
-  }
-
-  console.log(`Hey, ${name}`);
+```js
+function double(x) {
+  return x * 2
 }
 ```
+
+`double` is deterministic and composable.  The mental model is simple.  However It gives strange results if you pass in anything other than a number.
+
+We can help by acknowledging that and adding some light logic to warn the user.
+
+
+```js{2-6}
+function double(x) {
+  if (!Number.isFinite(x)) {
+    return console.error(
+      `double(x): ${x} is not a number`
+    )
+  }
+
+  return x * 2
+}
+```
+
+Some of our users love this, some hate it.  They don't want `double` logging in production.  They pay for error reporting software they want to hook into.
+
+**We need to lift the handling of this error up.**  We can do that using callbacks and something like an `onError` argument.
+
+
+```js{3-6}
+function double(x, opts = {}) {
+  if (!Number.isFinite(x)) {
+    const error = `double(x): ${x} is not a number`;
+    if (opts.onError) {
+      return opts.onError(error)
+    }
+ 
+    return console.error(error)
+  }
+
+  return x * 2
+}
+```
+
+This solution has some [serious issues](http://callbackhell.com/) at scale.
+
+1. For every abstraction in your system, you need to be aware of the `onError` function.  It would be easy for a new developer entering your codebase to make a mistake and forget to pass it along.
+2. The control flow of your entire system needs to account for the cases where errors cause early returns.  We have to work with the callstack.
+
+We want nested function to say what _has_ happened, and yield control to some outside block of code that says what _should_ happen, without having to thread that logic through the system.
+
+This is what makes an effect an algebraic effect.  The effect and the handler are seperate, and they are aware of each other without making the rest of the system aware.
+
+### Learning from `Try/Catch`
+
+Programming languages like Koka and Eff make algebraic effects first class citizens, however Javascript does not.
+
+Javascript has algebraic-like abstractions like `try/catch` and `async/await`, but it doesn't expose anything that allows us to build those two ourselves.
+
+We can use them to help us understand what algebraic effects are.
+
+```js{3,12-18}
+function double(x) {
+  if (!Number.isFinite(x)) {
+    throw `double(x): ${x} is not a number`;
+  }
+
+  return x * 2
+}
+ 
+// anyone consuming our code can wrap at the top level!
+try {
+  double("😵")
+} catch (error) {
+  ErrorService.log(error);
+ 
+  if (!env.PROD) {
+    console.error(error)
+  }
+}
+```
+
+Our system has become a lot healthier now that:
+* `throw` only needs to change if we want to communicate a different error, and we can colocate it next to relevant code.
+* You can override a higher up in the system `catch` by simply adding another `try` block deeper in the system.
+* Neither the consumed module, nor the consumer have to worry about cleaning up everything inbetween the effect and the handler during a refactor
+
+While engineering, change and iteration can be rapid.  The speed at which we can collaborate and refactor is key to getting a quality end result.
+
+**Imagine if we could extract the essence of `try/catch` and apply that to other programming concepts such as fetching data.**
+
+Instead of our effect being named `throw` we will name it `get`.
+
+```js
+function double() {
+  const x = get "number";
+  return x * 2
+}
+```
+
+Our users can now interact with this double function without our system being aware.  In this imaginary land, when javascript finds a `get` it would start looking for a handler.
+
+```js
+function double() {
+  const x = get "number";
+  return x * 2
+}
+
+try {
+  double()
+} onGet(property, resume) {
+  // resume lets double() continue running with the value!
+  if (property === "number") {
+    API.get("/number").then(
+      response => resume(response.data.number)
+    )
+  }
+}
+```
+
+We wouldn't have to tightly couple a large system to any specific API, we could easily allow for others to plug and play.  They could even control our system's code flow, all from the outside.
+
+### 🏆 Summing it Up
+
+Algebraic effects allow us to make only two parts of our system aware of side effects. Where the effect fires, and where it is handled.
+
+This reduces drag when quickly iterating, by speeding up the refactor path.  You rarely have to touch where an effect is fired, or the in between code of the system.  Usually you just move the handler up and down some levels.
+
+It also gives those consuming your system free entry points to integrate.  As long as this is properly documented and exposed, you gain a lot of flexibility for free.
+
+---
+
+If you have any questions or are looking for one-on-one React mentorship, feel free to tweet me @yurkaninryan any time!
+
+Good luck and happy coding!! 😄
+
+
+
+
+
+
+
+
 
 
