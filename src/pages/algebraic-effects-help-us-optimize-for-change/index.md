@@ -5,18 +5,7 @@ date: "2019-02-08"
 hidden: true
 ---
 
-When creating and working in any large system, it's easy to write code that makes refactoring and tinkering within the system more difficult.
-
-```js
-function double(x) {
-  return x * 2
-}
-```
-
-`double` is deterministic and composable.  The mental model is simple.  However It gives strange results if you pass in anything other than a number.
-
-We can help by acknowledging that and adding some light logic to warn the user.
-
+When a function has to interact with anything other then itself it's emitting **side effects**
 
 ```js{2-6}
 function double(x) {
@@ -30,13 +19,17 @@ function double(x) {
 }
 ```
 
-Some of our users love this, some hate it.  They don't want `double` logging in production.  They pay for error reporting software they want to hook into.
+`double` is handling an error here by logging with `console`.  The cause and handler of the effect are colocated. 
 
-**We need to lift the handling of this error up.**  We can do that using callbacks and something like an `onError` argument.
+Some of our users love this, some _hate it._  What if they don't want `double` logging in production, or  they pay for error reporting software they want to hook into?
+
+**We need to lift the handling of this effect up.** How do we signal that an effect should be handled though?  
+
+We _could_ do that using callbacks and something like an `onError` argument.
 
 
 ```js{3-6}
-function double(x, opts = {}) {
+function double(x, opts) {
   if (!Number.isFinite(x)) {
     const error = `double(x): ${x} is not a number`;
     if (opts.onError) {
@@ -50,14 +43,11 @@ function double(x, opts = {}) {
 }
 ```
 
-### Good Architecture Helps Systems and New Developers Grow
+This solution has some [serious issues](http://callbackhell.com/) at scale.  It causes drag while refactoring and makes it harder for new developers to fall into the [pit of success.](https://blog.codinghorror.com/falling-into-the-pit-of-success/)
 
-This solution above has some [serious issues](http://callbackhell.com/) at scale.  It causes drag while refactoring and makes it harder for new developers to fall into the [pit of success.](https://blog.codinghorror.com/falling-into-the-pit-of-success/)
+### Good Architecture Helps Codebases and Developers Scale
 
-1. For every abstraction in your system, you need to be aware of the `onError` function.  It would be easy for a new developer entering your codebase to make a mistake and forget to pass it along.
-2. The control flow of your entire system needs to account for the cases where errors cause early returns.  We have to work with the callstack.
-
-Imagine coming into a company with no context of the system, and trying to add something to it that has early returns and threads handlers.
+Imagine having to write code in a layer that lives between `double` and the rest of the code.
 
 ```js
 import double from "./double";
@@ -71,32 +61,21 @@ function doublePlusOne(x) {
 }
 ```
 
-In peer review, you would need someone catch that you're not piping through `onError` or handling a possible early return.  Static Typing helps here, but still errors are possible.
+**You will break code** if you forget to pipe `onError` through, or if you don't know that `double` returns early on error.
 
 This is the version that handles those edge cases.
 
 ```js
-function doublePlusOne(x, opts={}) {
-  const doubled = double(x, opts);
+import double from "./double";
 
-  // We errored
-  if (!doubled) { return; }
-
-  return doubled + 1;
+function doublePlusOne(x) {
+  return double(x) + 1;
 }
 ```
 
-What if the nested function said what _has_ happened, and yielded control to some outside block of code that says what _should_ happen, without having to thread that logic through the system.  That would reduce the error surface area of the code.
+If we didn't have to handle these cases and instead could magically connect the cause of the effect to the handler life would be easier for everyone.
 
-### Learning from `Try/Catch`
-
-Programming languages like Koka and Eff make algebraic effects first class citizens, however Javascript does not.
-
-Javascript has algebraic-like abstractions like `try/catch` and `async/await`, but it doesn't expose anything that allows us to build those two ourselves.
-
-We can use them to help us understand what algebraic effects are.
-
-```js{3,12-18}
+```js{3,9-12}
 function double(x) {
   if (!Number.isFinite(x)) {
     throw `double(x): ${x} is not a number`;
@@ -105,9 +84,14 @@ function double(x) {
   return x * 2
 }
  
+// We don't have to be aware anymore!
+function doublePlusOne(x) {
+  return double(x) + 1;
+}
+ 
 // anyone consuming our code can wrap at the top level!
 try {
-  double("😵")
+  doublePlusOne("😵")
 } catch (error) {
   ErrorService.log(error);
  
@@ -117,35 +101,40 @@ try {
 }
 ```
 
-Our system has become a lot healthier now that:
-* `throw` only needs to change if we want to communicate a different error, and we can colocate it next to relevant code.
-* You can override a higher up in the system `catch` by adding another `try` block deeper in the system.
-* Neither the consumed module, nor the consumer have to worry about cleaning up everything inbetween the effect and the handler during a refactor
+This is a large part of what makes an effect algebraic.  `doublePlusOne` can exist without being aware of the side effect.
+
+Any code added inbetween is safe from that mental overhead.
+
+### Learning from `Try/Catch`
+
+How would you recreate `try/catch` in Javascript if it wasn't a default part of the language?
+
+1. `throw` stops at the first `catch` block it encounters, allowing for a top level default that can be overriden.
+2. When we `throw` the call stack is discarded.  This let's us break the rules of any language that works primarly with `return`.
+
+
+Programming languages like Koka and Eff make algebraic effects first class citizens, however Javascript does not.  You could build `try/catch` in those languages.
+
+Javascript doesn't expose the tools we need to create algebraic effects, but it does expose abstractions like `try/catch` and `async/await`.
 
 While engineering, change and iteration can be rapid.  The speed at which we can collaborate and refactor is key to getting a quality end result.
 
 **Imagine if we could extract the essence of `try/catch` and apply that to other programming concepts such as fetching data.**
 
-Instead of our effect being named `throw` we will name it `get`.
+In this imaginary land, when Javascript finds a `fetch.throw` it would start looking for a handler.
+
 
 ```js
-function double() {
-  const x = get "number";
-  return x * 2
-}
-```
+const fetch = new Effect();
 
-Our users can now interact with this double function without our system being aware.  In this imaginary land, when javascript finds a `get` it would start looking for a handler.
-
-```js
 function double() {
-  const x = get "number";
+  const x = fetch.throw("number");
   return x * 2
 }
 
 try {
   double()
-} onGet(property, resume) {
+} fetch.catch(resume, ...args) {
   // resume lets double() continue running with the value!
   if (property === "number") {
     API.get("/number").then(
@@ -155,15 +144,29 @@ try {
 }
 ```
 
-We wouldn't have to tightly couple a large system to any specific API, we could easily allow for others to plug and play.  They could even control our system's code flow, all from the outside.
+You may have noticed `resume` being passed into the handler.  In languages that expose algebraic effects they usually have a way to return to where the `throw` occured.
+
+### How Does This Help Optimize for Change?
+
+Earlier in this article, I talked about how we had to "lift the handler up", in order to expose behavior.
+
+I like to think of "Time to Refactor" as a very important part of any API.  If an effect pipes through code as you move the handler up and down you have to clean up/pipe it through relevant spots.
+
+1. PR's will be bigger making code review slower.
+2. Iterations will take longer because you are cleaning up or testing.
+3. There are more chances to make a mistake and silently break other parts of the codebase.
+
+I like to think of this as "Code Surface Area" of an effect.  The more the codebase knows about a part of itself, the harder it becomes to iterate.
+
+
 
 ### 🏆 Summing it Up
 
-Algebraic effects allow us to make only two parts of our system aware of side effects. Where the effect fires, and where it is handled.
+Algebraic effects allow us to make only two parts of our codebase aware of side effects. Where the effect fires, and where it is handled.
 
-This reduces drag when iterating, by speeding up the refactor path.  You rarely have to touch where an effect is fired, or the in between code of the system.  Often you just move the handler up and down some levels.
+This reduces drag when iterating, by speeding up the refactor path.  You rarely have to touch where an effect is fired, or the in between code of the codebase.  Often you just move the handler up and down some levels.
 
-It also gives those consuming your system free entry points to integrate.  As long as this is documented and exposed, you gain a lot of flexibility for free.
+It also gives those consuming your codebase free entry points to integrate.  As long as this is documented and exposed, you gain a lot of flexibility for free.
 
 ---
 
