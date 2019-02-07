@@ -25,10 +25,7 @@ class Bio extends React.Component {
         />
         <div>
           <p style={{ marginBottom: 0 }}>
-            <a href="https://mobile.twitter.com/YurkaninRyan">
-              Ryan Yurkanin's
-            </a>{' '}
-            personal blog
+            <a href="https://mobile.twitter.com/YurkaninRyan">Ryan Yurkanin</a>
           </p>
           <p>Lead Engineer @Guru</p>
         </div>

@@ -1,11 +1,11 @@
 ---
 title: Algebraic Effects Help Us Optimize for Change
-description: Algebraic effects help reduce the error surface area of systems by seperating effects from their handlers without requiring the rest of the system to link them together.
+description: Algebraic effects help reduce the mental overhead of working in a codebase allowing new developers
 date: "2019-02-08"
 hidden: true
 ---
 
-When a function has to interact with anything other then itself it's emitting **side effects**
+When a function has to interact with anything other then itself it's emitting **side effects**.
 
 ```js{2-6}
 function double(x) {
@@ -21,7 +21,7 @@ function double(x) {
 
 `double` is handling an error here by logging with `console`.  The cause and handler of the effect are colocated. 
 
-Some of our users love this, some _hate it._  What if they don't want `double` logging in production, or  they pay for error reporting software they want to hook into?
+Some of our users love this; some _hate it._  What if they don't want `double` logging in production, or  they pay for error reporting software they want to hook into?
 
 **We need to lift the handling of this effect up.** How do we signal that an effect should be handled though?  
 
@@ -159,12 +159,11 @@ I like to think of "Time to Refactor" as a very important part of any API.  If a
 I like to think of this as "Code Surface Area" of an effect.  The more the codebase knows about a part of itself, the harder it is to iterate.
 
 
+### Wrapping Up
 
-### 🏆 Summing it Up
+Algebraic effects make two parts of our codebase aware of side effects: where the effect fires and where it is handled.
 
-Algebraic effects allow us to make only two parts of our codebase aware of side effects. Where the effect fires, and where it is handled.
-
-This reduces drag when iterating, by speeding up the refactor path.  You rarely have to touch where an effect is fired, or the in between code of the codebase.  Often you just move the handler up and down some levels.
+By speeding up the refactor cycle, we can iterate faster.  You rarely have to touch where an effect is fired, or the in between code of the codebase.  Often you just move the handler up and down some levels.
 
 It also gives those consuming your codebase free entry points to integrate.  As long as this is documented and exposed, you gain a lot of flexibility for free.
 
