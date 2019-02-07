@@ -156,7 +156,7 @@ I like to think of "Time to Refactor" as a very important part of any API.  If a
 2. Iterations will take longer because you are cleaning up or testing.
 3. There are more chances to make a mistake and silently break other parts of the codebase.
 
-I like to think of this as "Code Surface Area" of an effect.  The more the codebase knows about a part of itself, the harder it becomes to iterate.
+I like to think of this as "Code Surface Area" of an effect.  The more the codebase knows about a part of itself, the harder it is to iterate.
 
 
 
