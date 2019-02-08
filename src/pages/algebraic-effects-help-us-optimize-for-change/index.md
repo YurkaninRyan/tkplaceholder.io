@@ -1,6 +1,7 @@
 ---
 title: Algebraic Effects Help Us Optimize for Change
 description: Algebraic effects help reduce the mental overhead of working in a codebase allowing new developers
+hidden: false
 date: "2019-02-07"
 ---
 
