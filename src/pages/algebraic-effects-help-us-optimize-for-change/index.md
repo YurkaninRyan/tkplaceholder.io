@@ -1,8 +1,7 @@
 ---
 title: Algebraic Effects Help Us Optimize for Change
 description: Algebraic effects help reduce the mental overhead of working in a codebase allowing new developers
-date: "2019-02-08"
-hidden: true
+date: "2019-02-07"
 ---
 
 When a function has to interact with anything other then itself it's emitting **side effects**.
