@@ -152,12 +152,11 @@ Earlier in this article, I talked about how we had to "lift the handler up", in 
 
 I like to think of "Time to Refactor" as a very important part of any API.  If an effect pipes through code as you move the handler up and down you have to clean up/pipe it through relevant spots.
 
-1. PR's will be bigger making code review slower.
-2. Iterations will take longer because you are cleaning up or testing.
-3. There are more chances to make a mistake and silently break other parts of the codebase.
+Algebraic Effects minimalize the amount of code you have to touch, which means:
 
-I like to think of this as "Code Surface Area" of an effect.  The more the codebase knows about a part of itself, the harder it is to iterate.
-
+1. PR's will be smaller making code review quicker and less intimidating.
+2. Iterations will take less time and be smoother because you don't have to touch every file in between the effect and the handler.
+3. There are less chances to make a mistake and silently break other parts of the codebase.
 
 ### Wrapping Up
 
