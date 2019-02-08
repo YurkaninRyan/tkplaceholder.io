@@ -1,10 +1,24 @@
 import React from 'react';
 import { graphql } from 'gatsby';
 import get from 'lodash/get';
+import styled from 'styled-components';
 
 import Layout from '../components/Layout';
+import Bio from '../components/Bio';
 import SEO from '../components/SEO';
 import ArticleSummary from '../components/ArticleSummary';
+
+import media from '../utils/media';
+import { rhythm } from '../utils/typography';
+
+const MobileBio = styled.aside`
+  display: block;
+  margin-bottom: ${rhythm(1 / 4)};
+
+  ${media.desktop`
+    display: none;
+  `}
+`;
 
 class BlogIndex extends React.Component {
   render() {
@@ -16,6 +30,9 @@ class BlogIndex extends React.Component {
     return (
       <Layout location={this.props.location} title={siteTitle}>
         <SEO />
+        <MobileBio>
+          <Bio />
+        </MobileBio>
         {posts.map(({ node }) => {
           if (node.frontmatter.hidden) {
             return null;

@@ -1,9 +1,25 @@
 import React from 'react';
+import styled from 'styled-components';
 
 import Header from './Header';
-import MoreInfo from './MoreInfo/MoreInfo';
+import Social from './Social';
+import Bio from './Bio';
+import ThemeSwitch from './ThemeSwitch/ThemeSwitch';
 
 import { rhythm, scale } from '../utils/typography';
+import media from '../utils/media';
+
+const DesktopSidebar = styled.aside`
+  align-self: flex-end;
+  margin-right: 48px;
+  position: sticky;
+  top: 48px;
+  display: none;
+
+  ${media.desktop`
+    display: block;
+  `}
+`;
 
 class Layout extends React.Component {
   render() {
@@ -27,7 +43,11 @@ class Layout extends React.Component {
           }}
         >
           <div style={{ display: 'flex', flexWrap: 'wrap-reverse' }}>
-            <MoreInfo />
+            <DesktopSidebar>
+              <Bio />
+              <Social />
+              <ThemeSwitch />
+            </DesktopSidebar>
             <main
               style={{ width: rhythm(26), flex: '0 0 auto', maxWidth: '100%' }}
             >

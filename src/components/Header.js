@@ -9,7 +9,6 @@ export default class Header extends React.Component {
       <header
         style={{
           background: 'var(--yellow-gradient)',
-          marginBottom: rhythm(1),
           position: 'sticky',
           top: '-60px',
         }}

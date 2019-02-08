@@ -1,12 +1,15 @@
 import React from 'react';
 import { Link, graphql } from 'gatsby';
 import get from 'lodash/get';
+import styled from 'styled-components';
 
 import '../fonts/fonts-post.css';
 import Layout from '../components/Layout';
 import SEO from '../components/SEO';
+import Bio from '../components/Bio';
 import { formatPostDate, formatReadingTime } from '../utils/helpers';
 import { rhythm, scale } from '../utils/typography';
+import media from '../utils/media';
 import {
   codeToLanguage,
   createLanguageLink,
@@ -18,6 +21,14 @@ const GITHUB_REPO_NAME = 'tkplaceholder.io';
 const systemFont = `system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
     "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans",
     "Droid Sans", "Helvetica Neue", sans-serif`;
+
+const MobileBio = styled.aside`
+  display: block;
+
+  ${media.desktop`
+    display: none;
+  `}
+`;
 
 class Translations extends React.Component {
   render() {
@@ -165,6 +176,9 @@ class BlogPostTemplate extends React.Component {
                 {formatPostDate(post.frontmatter.date, lang)}
                 {` • ${formatReadingTime(post.timeToRead)}`}
               </p>
+              <MobileBio>
+                <Bio />
+              </MobileBio>
               {translations.length > 0 && (
                 <Translations
                   translations={translations}
@@ -175,17 +189,6 @@ class BlogPostTemplate extends React.Component {
               )}
             </header>
             <div dangerouslySetInnerHTML={{ __html: html }} />
-            <footer>
-              <p>
-                <a href={discussUrl} target="_blank" rel="noopener noreferrer">
-                  Discuss on Twitter
-                </a>
-                {` • `}
-                <a href={editUrl} target="_blank" rel="noopener noreferrer">
-                  Edit on GitHub
-                </a>
-              </p>
-            </footer>
           </article>
         </Layout>
         <footer

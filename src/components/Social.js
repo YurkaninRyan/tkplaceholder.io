@@ -2,7 +2,7 @@ import React from 'react';
 
 import { rhythm } from '../utils/typography';
 
-class Footer extends React.Component {
+export default class Social extends React.Component {
   render() {
     return (
       <footer>
@@ -25,5 +25,3 @@ class Footer extends React.Component {
     );
   }
 }
-
-export default Footer;
