@@ -19,15 +19,16 @@ const query = graphql`
   }
 `;
 
-function SEO({ meta, image, title, description, slug, lang = 'en' }) {
+function SEO({ meta, title, description, slug, lang = 'en' }) {
   return (
     <StaticQuery
       query={query}
       render={data => {
         const { siteMetadata } = data.site;
         const metaDescription = description || siteMetadata.description;
-        const metaImage = image ? `${siteMetadata.siteUrl}/${image}` : null;
         const url = `${siteMetadata.siteUrl}${slug}`;
+        const metaImage = `${url}seo.jpg`;
+
         return (
           <Helmet
             htmlAttributes={{ lang }}
