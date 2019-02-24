@@ -23,7 +23,7 @@ function double(x) {
 
 Some of our users love this; some _hate it._  What if they don't want `double` logging in production, or  they pay for error reporting software they want to hook into?
 
-**We need to lift the handling of this effect up.** How do we signal that an effect should be handled though?  
+**We need to lift the handling of this effect up.** How do we signal that an effect should be handled though?
 
 We _could_ do that using callbacks and something like an `onError` argument.
 
