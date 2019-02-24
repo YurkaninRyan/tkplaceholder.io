@@ -49,11 +49,11 @@ class Intercom extends Component {
       this.setState({ messages: data.messages })
     );
 
-    API.subscribeToNewMessages(this.updateMessages);
+    API.subscribeToNewMessages(this.updateNewMessages);
   }
 
   componentWillUnmount() {
-    API.unsubscribeFromNewMessages(this.updateMessages);
+    API.unsubscribeFromNewMessages(this.updateNewMessages);
   }
 
   render() {
@@ -85,7 +85,7 @@ class Intercom extends Component {
       this.setState({ messages: data.messages })
     );
 
-    API.subscribeToNewMessages(this.updateMessages);
+    API.subscribeToNewMessages(this.updateNewMessages);
   }
 
   componentDidUpdate() {
@@ -95,7 +95,7 @@ class Intercom extends Component {
   }
 
   componentWillUnmount() {
-    API.unsubscribeFromNewMessages(this.updateMessages);
+    API.unsubscribeFromNewMessages(this.updateNewMessages);
   }
 
   render() {
@@ -226,11 +226,11 @@ const NewMessagesMixin = {
   };
 
   componentDidMount() {
-    API.subscribeToNewMessages(this.updateMessages);
+    API.subscribeToNewMessages(this.updateNewMessages);
   }
 
   componentWillUnmount() {
-    API.unsubscribeFromNewMessage(this.updateMessages)
+    API.unsubscribeFromNewMessage(this.updateNewMessages)
   }
 }
 
@@ -269,11 +269,11 @@ function withNewMessages(Component){
       });
 
       componentDidMount() {
-        API.subscribeToNewMessages(this.updateMessages);
+        API.subscribeToNewMessages(this.updateNewMessages);
       }
 
       componentWillUnmount() {
-        API.unsubscribeFromNewMessage(this.updateMessages)
+        API.unsubscribeFromNewMessage(this.updateNewMessages)
       }
 
       render() {
@@ -315,11 +315,11 @@ class NewMessages extends Component {
   }
 
   componentDidMount() {
-    API.subscribeToNewMessages(this.updateMessages);
+    API.subscribeToNewMessages(this.updateNewMessages);
   }
 
   componentWillUnmount() {
-    API.unsubscribeFromNewMessage(this.updateMessages)
+    API.unsubscribeFromNewMessage(this.updateNewMessages)
   }
 
   render() {

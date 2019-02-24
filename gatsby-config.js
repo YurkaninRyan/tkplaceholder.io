@@ -3,7 +3,7 @@ module.exports = {
     title: 'TKPlaceholder',
     author: 'Ryan Yurkanin',
     description: 'Personal Blog/Portfolio for Ryan Yurkanin.',
-    siteUrl: 'https://tk.io',
+    siteUrl: 'https://tkplaceholder.io',
     social: {
       twitter: '@YurkaninRyan',
     },
@@ -46,6 +46,7 @@ module.exports = {
           },
           'gatsby-remark-copy-linked-files',
           'gatsby-remark-smartypants',
+          'tkplaceholder-remark-social-cards',
         ],
       },
     },
