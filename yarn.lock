@@ -12364,10 +12364,10 @@ tinycolor2@^1.1.2, tinycolor2@^1.4.1:
   resolved "https://registry.yarnpkg.com/tinycolor2/-/tinycolor2-1.4.1.tgz#f4fad333447bc0b07d4dc8e9209d8f39a8ac77e8"
   integrity sha1-9PrTM0R7wLB9TcjpIJ2POaisd+g=
 
-tkplaceholder-remark-social-cards@1.0.4:
-  version "1.0.4"
-  resolved "https://registry.yarnpkg.com/tkplaceholder-remark-social-cards/-/tkplaceholder-remark-social-cards-1.0.4.tgz#a7bcf397650c4145ceca9cb0ea07c898a41d975f"
-  integrity sha512-oCTiOfT1oRvmWpU03YOWvOzllf/zKTiI4iw7OAkSKKow+C0hNJjrfHPjenkonMY22tBDzOAMbYd6YL63QdY3iA==
+tkplaceholder-remark-social-cards@1.0.5:
+  version "1.0.5"
+  resolved "https://registry.yarnpkg.com/tkplaceholder-remark-social-cards/-/tkplaceholder-remark-social-cards-1.0.5.tgz#4431411b7b026c2936baa492202a5bba47c5a2bb"
+  integrity sha512-9XVik2v4elnVFtP+P6xCAs0PRiNKg/iQkxI+a0GVYeLuhFXKYteLLCzzuIlG21DVeyLP4uGAFsRfm4sWyrRKKQ==
   dependencies:
     jimp "^0.6.0"
 
