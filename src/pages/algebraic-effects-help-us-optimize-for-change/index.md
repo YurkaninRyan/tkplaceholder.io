@@ -5,7 +5,7 @@ hidden: false
 date: "2019-02-07"
 ---
 
-When a function has to interact with anything other then itself it's emitting **side effects**.
+When a function has to interact with anything other than itself it emits **side effects.**
 
 ```js{2-6}
 function double(x) {
@@ -68,8 +68,14 @@ This is the version that handles those edge cases.
 ```js
 import double from "./double";
 
-function doublePlusOne(x) {
-  return double(x) + 1;
+function doublePlusOne(x, opts) {
+  // Can't forget to pipe our "opts"
+  const doubled = double(x, opts);
+
+  // We must of received an error.
+  if (!Number.isNumber(doubled)) { return null; }
+
+  return doubled + 1;
 }
 ```
 
@@ -103,14 +109,14 @@ try {
 
 This is a large part of what makes an effect algebraic.  `doublePlusOne` can exist without being aware of the side effect.
 
-Any code added inbetween is safe from that mental overhead.
+Any code added in between is safe from that mental overhead.
 
 ### Learning from `Try/Catch`
 
 How would you recreate `try/catch` in Javascript if it wasn't a default part of the language?
 
-1. `throw` stops at the first `catch` block it encounters, allowing for a top level default that can be overriden.
-2. When we `throw` the call stack is discarded.  This let's us break the rules of any language that works primarly with `return`.
+1. `throw` stops at the first `catch` block it encounters, allowing for a top level default that can be overridden.
+2. When we `throw` the call stack is discarded.  This lets us break the rules of any language that works primarily with `return`.
 
 
 Programming languages like Koka and Eff make algebraic effects first class citizens, however Javascript does not.  You could build `try/catch` in those languages.
@@ -144,7 +150,7 @@ try {
 }
 ```
 
-You may have noticed `resume` being passed into the handler.  In languages that expose algebraic effects they usually have a way to return to where the `throw` occured.
+You may have noticed `resume` being passed into the handler.  In languages that expose algebraic effects they usually have a way to return to where the `throw` occurred.
 
 ### How Does This Help Optimize for Change?
 
