@@ -21,6 +21,14 @@ body.light {
   --inlineCode-text: #000;
 }
 
+body.light figure img {
+  box-shadow: none;
+}
+
+body.light img {
+  box-shadow: 1px 2px 5px 0px #444;
+}
+
 body.dark {
   --yellow-gradient: radial-gradient(
     circle,

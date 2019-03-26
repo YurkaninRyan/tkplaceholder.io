@@ -46,7 +46,7 @@ module.exports = {
           },
           'gatsby-remark-copy-linked-files',
           'gatsby-remark-smartypants',
-          'tkplaceholder-remark-social-cards',
+          'gatsby-plugin-tkplaceholder-social-cards',
         ],
       },
     },
