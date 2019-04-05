@@ -25,8 +25,8 @@ body.light figure img {
   box-shadow: none;
 }
 
-body.light img {
-  box-shadow: 1px 2px 5px 0px #444;
+body.light .gatsby-resp-image-wrapper {
+  box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.5);
 }
 
 body.dark {

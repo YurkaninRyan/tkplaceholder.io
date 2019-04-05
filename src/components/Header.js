@@ -11,6 +11,7 @@ export default class Header extends React.Component {
           background: 'var(--yellow-gradient)',
           position: 'sticky',
           top: '-60px',
+          zIndex: 100,
         }}
       >
         <nav
