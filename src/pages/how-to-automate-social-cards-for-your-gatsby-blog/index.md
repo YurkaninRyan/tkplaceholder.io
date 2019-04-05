@@ -1,7 +1,7 @@
 ---
 title: "How to Automate Social Cards for your Gatsby Blog"
 description: Having to make a social card for every blog post you write can be tiresome.  Wouldn't it be awesome if they automatically generated?
-date: "2019-04-25"
+date: "2019-04-05"
 ---
 
 I love having my own blog, but I hate how bland my links look when sharing my posts on twitter.  It's hard to feel proud of your work when this is what your preview looks like:
