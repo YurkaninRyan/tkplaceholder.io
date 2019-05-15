@@ -1,5 +1,5 @@
 ---
-title: Why function components fit React better than classes
+title: Why Function Components Fit React Better than Classes
 description: When making a new React Component you have two options, class or function.  Why the shift from the way we've always known?
 hidden: false
 date: "2019-05-11"
