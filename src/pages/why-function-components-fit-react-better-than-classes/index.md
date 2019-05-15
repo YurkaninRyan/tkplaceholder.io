@@ -136,7 +136,7 @@ The bugs this causes are _very_ subtle. The default should be to capture the val
 
 If you're curious, [Dan Abramov does a great job showcasing them](https://overreacted.io/how-are-function-components-different-from-classes/) and breaking down why we should care.
 
-Function components have their own problems.  They shift from `this` to errors from closures.
+Function components have their own problems.  Subtle bugs stop coming from `this`, but are now coming from closures.
 
 The main difference is that it is _very_ hard to create warnings around `this` but we [already have lint rules](https://www.npmjs.com/package/eslint-plugin-react-hooks) that make `useEffect` much easier to use.
 
