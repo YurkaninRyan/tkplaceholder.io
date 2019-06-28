@@ -174,7 +174,7 @@ pre[class*='language-'] {
 }
 
 .token.comment {
-  color: rgba(98, 114, 164, 1);
+  color: rgb(160, 170, 199);
 }
 
 .token.prolog {
