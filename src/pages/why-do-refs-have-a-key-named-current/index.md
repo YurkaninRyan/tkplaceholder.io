@@ -236,7 +236,7 @@ function Interval(props) {
 }
 ```
 
-`useRef` takes care of maintaing that object reference, as well as cleaning it up when our components unmount.  It makes sense that `createRef` returns the same structure to limit confusion!
+`useRef` takes care of maintaining that object reference, as well as cleaning it up when our components unmount.  It makes sense that `createRef` returns the same structure to limit confusion!
 
 * * * * *
 
