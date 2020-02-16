@@ -30,8 +30,6 @@
     "gatsby-source-filesystem": "^2.0.12",
     "gatsby-transformer-remark": "^2.1.17",
     "gatsby-transformer-sharp": "^2.1.9",
-    "husky": "^4.2.3",
-    "lint-staged": "^10.0.7",
     "lodash": "^4.17.11",
     "prismjs": "^1.15.0",
     "react": "^16.8.0-alpha.0",
@@ -46,7 +44,6 @@
   "devDependencies": {
     "eslint": "^6.8.0",
     "eslint-plugin-react": "^7.11.1",
-    "gh-pages": "^2.2.0",
     "prettier": "^1.14.2"
   },
   "homepage": "https://tkplaceholder.io",
@@ -54,22 +51,8 @@
   "scripts": {
     "dev": "gatsby develop",
     "lint": "./node_modules/.bin/eslint --ext .js,.jsx --ignore-pattern public .",
-    "format": "prettier --write '{gatsby-*.js,src/**/*.{js,jsx,json,css}}'",
     "develop": "gatsby develop",
     "start": "npm run develop",
-    "build": "rm -rf public && rm -rf .cache && gatsby build",
-    "deploy": "yarn build && cp now.json public/ && cd public && now alias $(now) tkplaceholder.io",
-    "dry": "yarn build && cp now.json public/ && cd public && now"
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged"
-    }
-  },
-  "lint-staged": {
-    "{gatsby-*.js,src/**/*.{js,jsx,json,css}}": [
-      "yarn format",
-      "git add"
-    ]
+    "build": "gatsby build"
   }
 }
